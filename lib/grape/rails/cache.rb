@@ -56,10 +56,10 @@ module Grape
             # Try to fetch from server side cache
             cache_store_expire_time = (opts[:cache_store_expires_in] || opts[:expires_in] || default_expire_time).to_i
             if cache_store_expire_time <= 0
-              block.call
+              block.call.as_json
             else
               ::Rails.cache.fetch(cache_key, compress: true, expires_in: cache_store_expire_time) do
-                block.call
+                block.call.as_json
               end
             end
           end
